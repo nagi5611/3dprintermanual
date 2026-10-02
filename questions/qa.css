@@ -1,0 +1,107 @@
+/* 質問・Q&A ページ — ../css/style.css（ガイド）の上に重ねる追加スタイル */
+
+/* header */
+.hdr-back{flex-shrink:0}
+
+/* hero */
+.qa-hero{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:end;margin-bottom:28px}
+.qa-search{padding:16px;display:flex;flex-direction:column;gap:12px}
+.qa-search-box{display:flex;align-items:center;gap:10px;padding:0 14px;min-height:46px;border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-surface);color:var(--color-text-faint);transition:border-color .15s,box-shadow .15s}
+.qa-search-box:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-soft)}
+.qa-search-box svg{width:16px;height:16px;flex-shrink:0}
+.qa-search-box input{flex:1;min-width:0;border:0;outline:0;background:none;font:inherit;font-size:15px;color:var(--color-text)}
+.qa-search-box input::placeholder{color:var(--color-text-faint)}
+.qa-filters{display:flex;gap:10px;flex-wrap:wrap}
+
+/* category nav (サイドバー / ドロワー共通) */
+.cat-n{margin-left:auto;font-size:12px;font-weight:600;color:var(--color-text-faint)}
+.toc a.on .cat-n,.toc-sheet-list a.on .cat-n{color:var(--color-primary-dark)}
+.toc a span.all,.toc-sheet-list a span.all{font-size:11px}
+
+/* list header */
+.qa-bar{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.qa-bar b{font-size:15px;color:var(--color-heading)}
+.qa-bar span{font-size:13px;color:var(--color-text-muted)}
+
+/* item */
+.qa-list{gap:10px}
+.qa-i{overflow:hidden;transition:border-color .15s}
+.qa-i.open{border-color:var(--color-primary-line)}
+.qa-q{width:100%;display:grid;grid-template-columns:auto 1fr 24px;gap:6px 14px;align-items:start;padding:16px 20px;background:none;border:0;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.qa-q:hover{background:var(--color-surface-muted)}
+.qa-st{grid-row:1/3;margin-top:2px;font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap;line-height:1.6}
+.qa-st.answered{background:var(--color-primary-soft);color:var(--color-primary-dark)}
+.qa-st.open{background:var(--color-surface-muted);color:var(--color-text-muted);border:1px solid var(--color-border)}
+.qa-t{font-size:16px;font-weight:700;line-height:1.55;color:var(--color-heading)}
+.qa-meta{grid-column:2;display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--color-text-muted);line-height:1.6}
+.qa-meta .pin{color:var(--color-primary-dark);font-weight:600}
+.qa-q em{grid-column:3;grid-row:1;font-style:normal;font-size:18px;text-align:center;color:var(--color-text-muted);transition:transform .2s;line-height:1.4}
+.qa-i.open .qa-q em{transform:rotate(45deg)}
+
+.qa-a{border-top:1px solid var(--color-border);padding:18px 20px 20px}
+.qa-a[hidden]{display:none}
+.qa-body{font-size:15px;max-width:46em;margin-bottom:18px}
+.qa-body:empty{display:none}
+.qa-ans{display:flex;flex-direction:column;gap:10px}
+.qa-r{display:grid;grid-template-columns:36px 1fr;gap:12px;padding:14px 16px;border-radius:var(--radius-md);background:var(--color-surface-muted);border:1px solid var(--color-border)}
+.qa-r.staff{background:var(--color-warn-bg);border-color:var(--color-warn-line)}
+.qa-av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;background:var(--color-surface);border:1px solid var(--color-border);color:var(--color-text-muted)}
+.qa-r.staff .qa-av{background:var(--color-primary);border-color:var(--color-primary);color:#fff}
+.qa-r-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;font-size:13px;margin-bottom:2px}
+.qa-r-h b{color:var(--color-heading)}
+.qa-r-h span{color:var(--color-text-muted);font-size:12px}
+.qa-r p{font-size:14.5px;line-height:1.7}
+.qa-empty-a{font-size:14px;color:var(--color-text-muted);padding:14px 16px;border:1px dashed var(--color-border-strong);border-radius:var(--radius-md)}
+.qa-reply{margin-top:14px;display:flex;gap:10px;align-items:flex-end}
+.qa-reply textarea{flex:1;min-height:44px;resize:vertical;font:inherit;font-size:14.5px;padding:10px 12px;border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-surface);color:var(--color-text);outline:0;transition:border-color .15s,box-shadow .15s}
+.qa-reply textarea:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-soft)}
+.qa-guide{display:inline-flex;margin-top:14px;font-size:13px;font-weight:600;text-decoration:none}
+.qa-guide:hover{text-decoration:underline}
+
+.qa-none{padding:40px 24px;text-align:center;color:var(--color-text-muted)}
+.qa-none b{display:block;color:var(--color-heading);font-size:16px;margin-bottom:6px}
+.qa-none .btn{margin-top:16px}
+
+/* modal (質問フォーム) */
+.qa-modal{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:24px}
+.qa-modal[hidden]{display:none}
+.qa-modal-bd{position:absolute;inset:0;background:rgba(16,22,36,.42)}
+.qa-modal-pn{position:relative;width:min(100%,600px);max-height:calc(100vh - 48px);display:flex;flex-direction:column;box-shadow:var(--shadow-md);animation:qaIn .25s cubic-bezier(.2,.8,.2,1)}
+@keyframes qaIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.qa-modal-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 12px 12px 22px;border-bottom:1px solid var(--color-border)}
+.qa-modal-hd b{font-size:17px;color:var(--color-heading)}
+.qa-x{width:40px;height:40px;display:grid;place-items:center;border:0;border-radius:var(--radius-md);background:var(--color-surface-muted);color:var(--color-text-muted);cursor:pointer}
+.qa-x:hover{color:var(--color-text)}
+.qa-modal-bdy{padding:20px 22px;overflow-y:auto;display:flex;flex-direction:column;gap:16px}
+.qa-row{display:grid;grid-template-columns:1fr auto;gap:16px}
+.qa-field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.qa-field>span{font-size:13px;font-weight:600;color:var(--color-heading)}
+.qa-field em{font-style:normal;font-size:11px;font-weight:700;color:var(--color-primary-dark);margin-left:6px}
+.qa-field input,.qa-field select,.qa-field textarea{font:inherit;font-size:15px;padding:10px 12px;min-height:44px;border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-surface);color:var(--color-text);outline:0;transition:border-color .15s,box-shadow .15s;width:100%}
+.qa-field textarea{resize:vertical}
+.qa-field input:focus,.qa-field select:focus,.qa-field textarea:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-soft)}
+.qa-field .seg{align-self:flex-start}
+.qa-field .seg button{min-height:38px}
+.qa-drop{display:grid;place-items:center;min-height:88px;padding:16px;text-align:center;font-size:13px;color:var(--color-text-muted);border-radius:var(--radius-md);border:1px dashed var(--color-border-strong);background:repeating-linear-gradient(135deg,#f1f3f6 0 10px,#e9ecf1 10px 20px)}
+.qa-modal-bdy .note{margin-top:0}
+.qa-modal-ft{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px;border-top:1px solid var(--color-border);background:var(--color-surface-muted);border-radius:0 0 var(--radius-lg) var(--radius-lg)}
+
+/* responsive */
+@media (max-width:1000px){
+  .qa-hero{grid-template-columns:1fr;gap:20px;align-items:stretch}
+}
+@media (max-width:720px){
+  .hdr-back{display:none}
+  .qa-q{padding:14px 16px;grid-template-columns:1fr 24px}
+  .qa-st{grid-row:auto;justify-self:start;margin:0}
+  .qa-t{grid-column:1}
+  .qa-meta{grid-column:1}
+  .qa-q em{grid-column:2;grid-row:1}
+  .qa-a{padding:16px}
+  .qa-reply{flex-direction:column;align-items:stretch}
+  .qa-modal{padding:0;place-items:end stretch}
+  .qa-modal-pn{width:100%;max-height:92vh;border-radius:16px 16px 0 0;border-bottom:0}
+  .qa-modal-ft{border-radius:0}
+  .qa-row{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.qa-modal-pn{animation:none}}

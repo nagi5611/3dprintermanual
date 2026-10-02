@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f38020">
+  <title>質問・Q&amp;A — 3Dプリンター使い方ガイド — ScienceHUB</title>
+  <link rel="icon" href="../assets/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="qa.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="site-title"><img src="../assets/icon-192.png" alt=""><b class="site-name">ScienceHUB</b> <span>3Dプリンター 質問・Q&amp;A</span></a>
+      <a class="btn btn-secondary hdr-back" href="../index.html">← 使い方ガイド</a>
+      <button class="btn btn-primary" type="button" data-ask>質問する</button>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <section class="qa-hero">
+      <div>
+        <span class="badge badge-plain">3Dプリンター使い方ガイド</span>
+        <h1 class="page-heading">質問・Q&amp;A</h1>
+        <p class="page-subheading">ガイドを読んでもわからなかったことを質問できます。回答するのは自然科学部 3Dモデル班の担当生徒（金田・田村・藤原）だけです。質問する前に、同じ質問がないか検索してみてください。</p>
+      </div>
+      <div class="qa-search card">
+        <label class="qa-search-box">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m10.5 10.5 3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input type="search" id="qa-q" placeholder="キーワードで検索（例：サポート、アンロード）" autocomplete="off">
+        </label>
+        <div class="qa-filters">
+          <div class="seg" id="qa-status" role="tablist" aria-label="回答状況">
+            <button type="button" data-status="all" class="on">すべて</button>
+            <button type="button" data-status="answered">回答済み</button>
+            <button type="button" data-status="open">未回答</button>
+          </div>
+          <div class="seg" id="qa-machine" role="tablist" aria-label="機種">
+            <button type="button" data-machine="all" class="on">全機種</button>
+            <button type="button" data-machine="ke">KE</button>
+            <button type="button" data-machine="cc">CC</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="layout">
+      <nav class="toc card" aria-label="カテゴリ">
+        <div class="toc-h">カテゴリ</div>
+        <div id="cat-links"></div>
+        <div class="keyhint">カテゴリはガイドの章と対応しています</div>
+      </nav>
+      <div class="main-col">
+        <div class="qa-bar">
+          <b id="qa-heading">すべての質問</b>
+          <span class="num" id="qa-count"></span>
+        </div>
+        <main id="qa-list" class="qa-list"></main>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-club">
+        <img src="../assets/icon-192.png" alt="自然科学部">
+        <div><b>松山南高校 自然科学部 / 3Dモデル班</b><span></span></div>
+      </div>
+      <div class="footer-meta">
+        <a href="../index.html">使い方ガイドへ戻る</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- モバイル：右端から引き出すカテゴリ -->
+  <div class="toc-sheet" id="toc-sheet">
+    <div class="toc-sheet-bd" data-toc-close></div>
+    <aside class="toc-sheet-pn" aria-label="カテゴリ">
+      <button class="toc-tab" id="toc-pill" type="button" aria-expanded="false" aria-controls="toc-sheet-list" aria-label="カテゴリを開く">
+        <span class="toc-tab-in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="toc-sheet-hd"><b>カテゴリ</b></div>
+      <div class="toc-sheet-list" id="toc-sheet-list"></div>
+    </aside>
+  </div>
+
+  <!-- 質問フォーム（デザインのみ） -->
+  <div class="qa-modal" id="qa-modal" hidden>
+    <div class="qa-modal-bd" data-ask-close></div>
+    <form class="qa-modal-pn card" id="qa-form" role="dialog" aria-modal="true" aria-labelledby="qa-form-h">
+      <div class="qa-modal-hd">
+        <b id="qa-form-h">質問する</b>
+        <button type="button" class="qa-x" data-ask-close aria-label="閉じる">✕</button>
+      </div>
+      <div class="qa-modal-bdy">
+        <label class="qa-field">
+          <span>質問のタイトル <em>必須</em></span>
+          <input type="text" required placeholder="例：サポートはどんなときにオンにすればいいですか？">
+        </label>
+        <div class="qa-row">
+          <label class="qa-field">
+            <span>カテゴリ <em>必須</em></span>
+            <select id="qa-form-cat" required></select>
+          </label>
+          <div class="qa-field">
+            <span>機種</span>
+            <div class="seg" id="qa-form-machine">
+              <button type="button" class="on">両方</button>
+              <button type="button">KE</button>
+              <button type="button">CC</button>
+            </div>
+          </div>
+        </div>
+        <label class="qa-field">
+          <span>くわしい内容</span>
+          <textarea rows="5" placeholder="どの手順で、何をしたら、どうなったかを書くと回答しやすくなります。"></textarea>
+        </label>
+        <div class="qa-field">
+          <span>画像（任意）</span>
+          <div class="qa-drop">エラー画面や失敗した作品の写真をここにドロップ</div>
+        </div>
+        <div class="note tip"><i>ヒント</i><div>印刷中のトラブルや危ないと感じたときは、ここに書かずにすぐ部員か先生を呼んでください。</div></div>
+      </div>
+      <div class="qa-modal-ft">
+        <button type="button" class="btn btn-secondary" data-ask-close>キャンセル</button>
+        <button type="submit" class="btn btn-primary">質問を送信</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="page-toast" id="page-toast" role="status"></div>
+
+  <script src="data.js"></script>
+  <script src="qa.js"></script>
+</body>
+</html>

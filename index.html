@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f38020">
+  <title>3Dプリンター使い方ガイド — ScienceHUB</title>
+  <link rel="icon" href="assets/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=20261003a">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="site-title"><img src="assets/icon-192.png" alt=""><b class="site-name">ScienceHUB</b> <span>3Dプリンター使い方ガイド</span></a>
+      <div class="seg" id="machine-seg" role="tablist" aria-label="機種"></div>
+      <a class="btn btn-primary hdr-cta" data-reserve href="#">3D印刷予約</a>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <section class="hero">
+      <div class="hero-text">
+        <span class="badge badge-plain">自然科学部 / 3Dモデル班制作</span>
+        <h1 class="page-heading">3Dプリンター利用ガイド</h1>
+        <p class="page-subheading">本校3Dプリンターの使い方です。データ作りから取り外しまで、この順番どおりに進めればOK。わからないところは飛ばさずに、担当の生徒か先生に聞いてください。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" data-reserve href="#">カレンダーから予約する →</a>
+          <a class="btn btn-secondary" href="#check">印刷前チェックリスト</a>
+          <a class="btn btn-secondary" href="questions/index.html">質問・Q&amp;A</a>
+        </div>
+      </div>
+      <dl class="card spec">
+        <div class="spec-h"><b>使用機種の情報</b><span class="badge badge-muted" id="spec-maker"></span></div>
+        <div class="spec-row"><dt>機種</dt><dd id="spec-name"></dd></div>
+        <div class="spec-row"><dt>スライサー</dt><dd id="spec-slicer"></dd></div>
+        <div class="spec-row"><dt>基本材料</dt><dd>PLA</dd></div>
+        <div class="spec-row"><dt>設置場所</dt><dd>プレハブ３階 物理実験室</dd></div>
+        <div class="spec-row"><dt>担当生徒</dt><dd>自然科学部 3Dモデル班<span class="spec-note">(309HR 金田、田村、藤原)</span></dd></div>
+        <div class="spec-row"><dt>担当教諭</dt><dd>川井先生</dd></div>
+      </dl>
+    </section>
+
+    <div class="layout">
+      <nav class="toc card" aria-label="もくじ">
+        <div class="toc-h">もくじ</div>
+        <div id="toc-links"></div>
+        <div class="keyhint"><kbd>↑</kbd><kbd>↓</kbd> キーでステップごとに移動できます</div>
+        <a class="toc-qa" href="questions/index.html"><b>わからないことは？</b>質問・Q&amp;A へ →</a>
+      </nav>
+      <div class="main-col">
+        <div class="swipehint">← 左右にスワイプでステップごとに移動できます →</div>
+        <main id="sections"></main>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="toc-sheet" id="toc-sheet">
+    <div class="toc-sheet-bd" data-toc-close></div>
+    <aside class="toc-sheet-pn" aria-label="もくじ">
+      <button class="toc-tab" id="toc-pill" type="button" aria-expanded="false" aria-controls="toc-sheet-list" aria-label="もくじを開く">
+        <span class="toc-tab-in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="toc-sheet-hd"><b>もくじ</b></div>
+      <div class="toc-sheet-list" id="toc-sheet-list"></div>
+      <a class="toc-qa toc-sheet-qa" href="questions/index.html"><b>わからないことは？</b>質問・Q&amp;A へ →</a>
+    </aside>
+  </div>
+
+  <div class="page-toast" id="page-toast" role="status"></div>
+
+  <script src="js/data.js?v=20261003a"></script>
+  <script src="js/main.js?v=20261003a"></script>
+</body>
+</html>
