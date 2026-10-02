@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3Dプリンター使い方ガイド</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f4f3ef; --paper2:#ebe9e3; --ink:#1c1c1a; --ink2:#5b5a55; --line:#cfccc3;
+    --accent:oklch(0.66 0.17 45); --accent-ink:#fff;
+    --warn:oklch(0.66 0.17 45); --tip:oklch(0.55 0.1 230);
+    --sans:'IBM Plex Sans JP',sans-serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:84px}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,p{margin:0;text-wrap:pretty}
+  button{font:inherit;color:inherit}
+
+  /* header */
+  .g-head{position:sticky;top:0;z-index:20;background:var(--ink);color:var(--paper);border-bottom:4px solid var(--accent)}
+  .g-head-in{max-width:1240px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:20px}
+  .g-brand{display:flex;align-items:baseline;gap:12px;flex:1;min-width:0}
+  .g-brand b{font-size:17px;letter-spacing:.02em;white-space:nowrap}
+  .g-brand span{font-family:var(--mono);font-size:12px;color:#a9a79f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .g-mach{display:flex;border:1px solid #55544f;flex-shrink:0}
+  .g-mach button{background:none;border:0;padding:7px 14px;font-size:13px;cursor:pointer;color:#bdbbb3;font-family:var(--mono);font-weight:500;min-height:36px}
+  .g-mach button.on{background:var(--accent);color:var(--accent-ink)}
+
+  /* hero */
+  .g-hero{max-width:1240px;margin:0 auto;padding:64px 24px 48px;display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:end;border-bottom:1px solid var(--line)}
+  .g-kicker{font-size:15px;letter-spacing:.04em;color:var(--accent);font-weight:600;margin-bottom:16px}
+  .g-hero h1{font-size:clamp(34px,5.4vw,64px);line-height:1.15;letter-spacing:-.01em;font-weight:700}
+  .g-hero p{margin-top:20px;color:var(--ink2);max-width:36em}
+  .g-spec{border:1px solid var(--ink);font-size:14px}
+  .g-spec-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--line)}
+  .g-spec-row:last-child{border-bottom:0}
+  .g-spec-row>*{padding:10px 14px}
+  .g-spec-row dt{font-family:var(--mono);font-size:12px;color:var(--ink2);background:var(--paper2);border-right:1px solid var(--line)}
+  .g-spec-row dd{margin:0;font-weight:500}
+
+  /* layout */
+  .g-body{max-width:1240px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:220px 1fr;gap:56px}
+  .g-toc{position:sticky;top:84px;align-self:start;padding:40px 0}
+  .g-toc-h{font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:12px}
+  .g-toc a{display:grid;grid-template-columns:32px 1fr;padding:8px 0;color:var(--ink2);text-decoration:none;font-size:14px;border-top:1px solid var(--line);line-height:1.5}
+  .g-toc a span{font-family:var(--mono);font-size:12px;padding-top:1px}
+  .g-toc a.on{color:var(--ink);font-weight:700}
+  .g-toc a.on span{color:var(--accent)}
+  main{min-width:0;padding-bottom:120px}
+
+  /* section */
+  .g-sec{padding:56px 0 24px;border-bottom:1px solid var(--line)}
+  .g-sec-h{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:end;margin-bottom:12px}
+  .g-sec-no{font-family:var(--mono);font-size:56px;line-height:.9;font-weight:500;color:var(--accent)}
+  .g-sec-h h2{font-size:30px;line-height:1.3}
+  .g-time{font-family:var(--mono);font-size:12px;border:1px solid var(--ink);padding:3px 10px;white-space:nowrap}
+  .g-lead{color:var(--ink2);margin-bottom:36px;max-width:40em}
+
+  /* placeholder */
+  .ph{position:relative;aspect-ratio:4/3;background:repeating-linear-gradient(135deg,var(--paper2) 0 10px,#e3e0d8 10px 20px);border:1px solid var(--line);display:flex;align-items:flex-end;overflow:hidden}
+  .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .ph-l{font-family:var(--mono);font-size:11.5px;color:var(--ink2);background:var(--paper);padding:4px 8px;margin:10px;border:1px solid var(--line);line-height:1.4}
+
+  /* step common */
+  .st-no{font-size:13px;font-weight:700;color:var(--ink2)}
+  .st-no b{display:inline-grid;place-items:center;width:28px;height:28px;background:var(--ink);color:var(--paper);margin-right:10px;font-size:13px}
+  .st h3{font-size:19px;line-height:1.45;margin:10px 0 8px}
+  .st p{font-size:15.5px}
+  .note{margin-top:14px;display:grid;grid-template-columns:auto 1fr;gap:10px;font-size:14px;line-height:1.65;padding:10px 12px;background:var(--paper2)}
+  .note i{font-style:normal;font-family:var(--mono);font-size:11px;font-weight:600;padding:1px 6px;height:fit-content;margin-top:2px;color:#fff}
+  .note.warn i{background:var(--warn)}
+  .note.tip i{background:var(--tip)}
+
+  /* layout: alternating */
+  .L-alt .st{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;padding:28px 0;border-top:1px dashed var(--line)}
+  .L-alt .st:first-child{border-top:0;padding-top:0}
+  .L-alt .st.st-flip .ph{order:2}
+  .L-alt .st.st-noimg{grid-template-columns:1fr}
+  .L-alt .st.st-noimg>div{max-width:44em}
+  .L-grid .st.st-noimg .st-body{padding-top:20px}
+
+  /* layout: card grid */
+  .L-grid{display:grid;grid-template-columns:repeat(var(--cols,3),1fr);gap:20px;counter-reset:s}
+  .L-grid .st{background:#fbfaf7;border:1px solid var(--line);display:flex;flex-direction:column}
+  .L-grid .st .ph{border:0;border-bottom:1px solid var(--line)}
+  .L-grid .st-body{padding:16px 18px 20px;flex:1;display:flex;flex-direction:column}
+  .L-grid .st h3{font-size:17px}
+  .L-grid .st p{font-size:14.5px}
+  .L-grid .note{margin-top:auto;position:relative;top:10px}
+  .L-grid .st-body p{margin-bottom:16px}
+
+  /* layout: vertical list */
+  .L-list .st{display:grid;grid-template-columns:48px 1fr;gap:0 20px;padding-bottom:36px;position:relative}
+  .L-list .st::before{content:"";position:absolute;left:23px;top:36px;bottom:0;width:2px;background:var(--line)}
+  .L-list .st:last-child::before{display:none}
+  .L-list .st-rail b{display:grid;place-items:center;width:48px;height:48px;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:17px;font-weight:600}
+  .L-list .st h3{margin-top:10px}
+  .L-list .ph{margin-top:16px;max-width:560px}
+
+  /* checklist */
+  .g-check{margin:0;border:2px solid var(--ink);background:#fbfaf7}
+  .g-check-h{background:var(--ink);color:var(--paper);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .g-check-h b{font-size:17px}
+  .g-check-h span{font-family:var(--mono);font-size:13px}
+  .g-check-h span.done{color:var(--accent)}
+  .g-check ul{list-style:none;margin:0;padding:8px 0;display:grid;grid-template-columns:1fr 1fr}
+  .g-check li button{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:none;border:0;padding:10px 20px;cursor:pointer;font-size:15px;line-height:1.55;min-height:44px}
+  .box{flex-shrink:0;width:20px;height:20px;border:2px solid var(--ink);margin-top:2px;display:grid;place-items:center;font-family:var(--mono);font-size:13px;font-weight:700;line-height:1}
+  .on .box{background:var(--accent);border-color:var(--accent);color:#fff}
+  .on .ct{color:var(--ink2);text-decoration:line-through}
+  .g-check-f{border-top:1px solid var(--line);padding:10px 20px;display:flex;justify-content:flex-end}
+  .g-check-f button{background:none;border:0;font-family:var(--mono);font-size:12px;color:var(--ink2);cursor:pointer;text-decoration:underline}
+
+  /* trouble */
+  .tr{border-top:1px solid var(--ink)}
+  .tr-i{border-bottom:1px solid var(--line)}
+  .tr-q{width:100%;display:grid;grid-template-columns:40px 1fr 24px;align-items:center;gap:12px;padding:16px 0;background:none;border:0;cursor:pointer;text-align:left;font-size:17px;font-weight:700;min-height:56px}
+  .tr-q span{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:600}
+  .tr-q em{font-style:normal;font-family:var(--mono);font-size:20px;font-weight:400;text-align:center}
+  .tr-a{display:grid;grid-template-columns:1fr 240px;gap:24px;padding:0 0 24px 52px}
+  .tr-a .ph{aspect-ratio:4/3}
+
+  .g-mark{font-style:normal;font-family:var(--mono);font-weight:600;font-size:12px;width:30px;height:30px;display:grid;place-items:center;background:var(--accent);color:#fff;flex-shrink:0;align-self:center}
+  .g-brand{align-items:center}
+  .g-club{display:flex;flex-wrap:wrap;margin-bottom:28px;border:1px solid var(--ink);width:fit-content;font-size:13px;font-weight:700}
+  .g-club span{padding:5px 12px;border-right:1px solid var(--ink)}
+  .g-club span:first-child{font-family:var(--mono);font-weight:500;font-size:12px;background:var(--ink);color:var(--paper);letter-spacing:.06em}
+  .g-club span:last-child{border-right:0}
+  .g-club-team{background:var(--accent);color:#fff}
+  .g-foot-wrap{background:var(--ink);color:var(--paper);border-top:4px solid var(--accent)}
+  .g-foot{max-width:1240px;margin:0 auto;padding:36px 24px 44px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+  .g-foot-club{display:flex;gap:14px;align-items:center}
+  .g-foot-club .g-mark{width:44px;height:44px;font-size:15px}
+  .g-foot-club b{display:block;font-size:16px}
+  .g-foot-club span{font-size:13px;color:#a9a79f}
+  .g-foot-meta{font-family:var(--mono);font-size:12px;color:#a9a79f;display:flex;gap:20px;flex-wrap:wrap}
+
+  /* key nav */
+  @keyframes stImg{from{opacity:.2;transform:translateX(-28px)}to{opacity:1;transform:none}}
+  @keyframes stImgR{from{opacity:.2;transform:translateX(28px)}to{opacity:1;transform:none}}
+  @keyframes stTxt{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes stBar{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+  .st{position:relative}
+  .st-arrive>.ph{animation:stImg .55s cubic-bezier(.2,.8,.2,1)}
+  .L-alt .st-arrive.st-flip>.ph{animation-name:stImgR}
+  .st-arrive>div:not(.ph){animation:stTxt .55s .08s cubic-bezier(.2,.8,.2,1) both}
+  .st-arrive::after{content:"";position:absolute;left:-18px;top:0;bottom:0;width:4px;background:var(--accent);transform-origin:top;animation:stBar .4s cubic-bezier(.2,.8,.2,1) both}
+  .g-check.st-arrive,.tr-i.st-arrive{animation:stTxt .5s cubic-bezier(.2,.8,.2,1)}
+  .g-check.st-arrive::after,.tr-i.st-arrive::after{display:none}
+  .g-keyhint{margin-top:20px;font-size:12px;color:var(--ink2);line-height:1.6}
+  .g-keyhint kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--ink2);border-bottom-width:2px;padding:0 5px;margin-right:2px;background:#fbfaf7}
+  .g-step-pos{position:fixed;right:20px;bottom:20px;z-index:30;background:var(--ink);color:var(--paper);font-size:13px;padding:8px 14px;border-left:4px solid var(--accent);opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none}
+  .g-step-pos.show{opacity:1;transform:none}
+  @media (max-width:1000px){.g-keyhint{display:none}.st-arrive::after{left:-10px}}
+
+  /* responsive */
+  @media (max-width:1000px){
+    .g-body{grid-template-columns:1fr;gap:0}
+    .g-toc{position:sticky;top:60px;z-index:10;background:var(--paper);padding:0;margin:0 -24px;display:flex;overflow-x:auto;border-bottom:1px solid var(--line)}
+    .g-toc-h{display:none}
+    .g-toc a{border-top:0;display:flex;gap:6px;white-space:nowrap;padding:12px 14px;border-bottom:2px solid transparent}
+    .g-toc a.on{border-bottom-color:var(--accent)}
+    html{scroll-padding-top:116px}
+    .L-grid{--cols:2 !important}
+  }
+  @media (max-width:720px){
+    .g-hero{grid-template-columns:1fr;padding:40px 20px 32px;gap:28px}
+    .g-body{padding:0 20px}
+    .g-toc{margin:0 -20px}
+    .g-brand span{display:none}
+    .g-brand b{font-size:15px}
+    .g-mach button{padding:6px 8px;font-size:11px}
+    .g-head-in{padding:10px 16px}
+    .g-sec-h{grid-template-columns:auto 1fr;gap:4px 14px}
+    .g-sec-no{font-size:40px;grid-row:span 2}
+    .g-time{grid-column:2;justify-self:start}
+    .g-sec-h h2{font-size:24px}
+    .L-alt .st{grid-template-columns:1fr;gap:16px}
+    .L-alt .st.st-flip .ph{order:0}
+    .L-grid{--cols:1 !important}
+    .g-check ul{grid-template-columns:1fr}
+    .tr-a{grid-template-columns:1fr;padding-left:0}
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks_panel.jsx"></script>
+<script type="text/babel" src="guide-data.jsx"></script>
+
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "layout": "alt",
+  "cols": 3,
+  "accent": "#D9622B",
+  "machine": "ke"
+}/*EDITMODE-END*/;
+
+const { useState, useEffect } = React;
+const pick = (v, m) => (v && typeof v === 'object' && !Array.isArray(v) && (v.ke || v.cc)) ? v[m] : v;
+
+function Ph({ label, src }) {
+  return <div className="ph">{src && <img src={src} alt={label} />}<span className="ph-l">画像：{label}</span></div>;
+}
+
+function Note({ n }) {
+  if (!n) return null;
+  return <div className={'note ' + n.type}><i>{n.type === 'warn' ? '注意' : 'ヒント'}</i><div>{n.text}</div></div>;
+}
+
+function Step({ s, i, m, layout, flip }) {
+  const text = pick(s.text, m), img = pick(s.img, m);
+  const hasImg = !!(img || s.src);
+  const ph = hasImg ? <Ph label={img || '写真'} src={s.src} /> : null;
+  const cls = 'st' + (hasImg ? '' : ' st-noimg') + (flip ? ' st-flip' : '');
+  const no = String(i + 1).padStart(2, '0');
+  if (layout === 'list') return (
+    <div className={cls}>
+      <div className="st-rail"><b>{no}</b></div>
+      <div>
+        <h3>{s.title}</h3><p>{text}</p><Note n={s.note} />{ph}
+      </div>
+    </div>
+  );
+  if (layout === 'grid') return (
+    <div className={cls}>
+      {ph}
+      <div className="st-body">
+        <div className="st-no"><b>{no}</b>ステップ</div>
+        <h3>{s.title}</h3><p>{text}</p><Note n={s.note} />
+      </div>
+    </div>
+  );
+  return (
+    <div className={cls}>
+      {ph}
+      <div>
+        <div className="st-no"><b>{no}</b>ステップ</div>
+        <h3>{s.title}</h3><p>{text}</p><Note n={s.note} />
+      </div>
+    </div>
+  );
+}
+
+function Checklist() {
+  const [done, setDone] = useState(() => { try { return JSON.parse(localStorage.getItem('g3d-check')) || []; } catch { return []; } });
+  useEffect(() => localStorage.setItem('g3d-check', JSON.stringify(done)), [done]);
+  const n = done.length, all = n === GUIDE_CHECKLIST.length;
+  return (
+    <div className="g-check" id="check">
+      <div className="g-check-h"><b>印刷前チェックリスト</b><span className={all ? 'done' : ''}>{all ? '準備OK ✓' : `${n} / ${GUIDE_CHECKLIST.length}`}</span></div>
+      <ul>
+        {GUIDE_CHECKLIST.map((c, i) => {
+          const on = done.includes(i);
+          return <li key={i}><button className={on ? 'on' : ''} onClick={() => setDone(on ? done.filter(x => x !== i) : [...done, i])}>
+            <span className="box">{on ? '✓' : ''}</span><span className="ct">{c}</span></button></li>;
+        })}
+      </ul>
+      <div className="g-check-f"><button onClick={() => setDone([])}>リセット</button></div>
+    </div>
+  );
+}
+
+function Trouble({ items }) {
+  const [open, setOpen] = useState(0);
+  return (
+    <div className="tr">
+      {items.map((t, i) => (
+        <div className="tr-i" key={i}>
+          <button className="tr-q" onClick={() => setOpen(open === i ? -1 : i)}>
+            <span>Q{String(i + 1).padStart(2, '0')}</span>{t.q}<em>{open === i ? '−' : '+'}</em>
+          </button>
+          {open === i && <div className="tr-a"><p>{t.a}</p><Ph label={t.img} /></div>}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function useStepKeys() {
+  const [pos, setPos] = useState(null);
+  useEffect(() => {
+    let anim = null, hideT = null;
+    const targets = () => [...document.querySelectorAll('main .st, main .g-check, main .tr-i')];
+    const offset = () => parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 84;
+    const scrollTo = (y) => {
+      cancelAnimationFrame(anim);
+      const html = document.documentElement; html.style.scrollBehavior = 'auto';
+      const from = window.scrollY, d = y - from, dur = Math.min(700, 320 + Math.abs(d) * 0.3), t0 = performance.now();
+      const ease = t => 1 - Math.pow(1 - t, 4);
+      const tick = now => {
+        const t = Math.min(1, (now - t0) / dur);
+        window.scrollTo(0, from + d * ease(t));
+        if (t < 1) anim = requestAnimationFrame(tick); else html.style.scrollBehavior = '';
+      };
+      anim = requestAnimationFrame(tick);
+    };
+    const onKey = (e) => {
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      if (e.target.closest && e.target.closest('input, textarea, select, .twk-panel')) return;
+      e.preventDefault();
+      const list = targets(), off = offset();
+      const tops = list.map(el => el.getBoundingClientRect().top - off);
+      let i = e.key === 'ArrowDown' ? tops.findIndex(t => t > 24) : (() => { let k = -1; tops.forEach((t, j) => { if (t < -4) k = j; }); return k; })();
+      if (i < 0) { if (e.key === 'ArrowUp') scrollTo(0); return; }
+      const el = list[i];
+      scrollTo(window.scrollY + tops[i] - 12);
+      el.classList.remove('st-arrive'); void el.offsetWidth; el.classList.add('st-arrive');
+      setTimeout(() => el.classList.remove('st-arrive'), 900);
+      const sec = el.closest('.g-sec');
+      const inSec = [...sec.querySelectorAll('.st, .g-check, .tr-i')];
+      const h = sec.querySelector('h2').textContent;
+      setPos(`${h}　${inSec.indexOf(el) + 1} / ${inSec.length}`);
+      clearTimeout(hideT); hideT = setTimeout(() => setPos(null), 1600);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => { window.removeEventListener('keydown', onKey); cancelAnimationFrame(anim); };
+  }, []);
+  return pos;
+}
+
+function App() {
+  const stepPos = useStepKeys();
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [m, setM] = useState(() => localStorage.getItem('g3d-machine') || t.machine);
+  const [active, setActive] = useState(GUIDE_SECTIONS[0].id);
+  const M = GUIDE_MACHINES[m];
+
+  useEffect(() => { localStorage.setItem('g3d-machine', m); }, [m]);
+  useEffect(() => { document.documentElement.style.setProperty('--accent', t.accent); document.documentElement.style.setProperty('--warn', t.accent); }, [t.accent]);
+  useEffect(() => {
+    const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && setActive(e.target.id)), { rootMargin: '-30% 0px -60% 0px' });
+    GUIDE_SECTIONS.forEach(s => { const el = document.getElementById(s.id); el && io.observe(el); });
+    return () => io.disconnect();
+  }, []);
+
+  return (<>
+    <header className="g-head"><div className="g-head-in">
+      <div className="g-brand"><i className="g-mark">3D</i><b>3Dプリンター使い方ガイド</b><span>松山南高校 自然科学部 / 3Dモデル班</span></div>
+      <div className="g-mach">
+        {Object.entries(GUIDE_MACHINES).map(([k, v]) =>
+          <button key={k} className={m === k ? 'on' : ''} onClick={() => setM(k)}>{v.short === 'KE' ? 'Ender-3 V3 KE' : 'Centauri Carbon'}</button>)}
+      </div>
+    </div></header>
+
+    <section className="g-hero">
+      <div>
+        <div className="g-kicker">松山南高校自然科学部 / 3Dモデル班</div>
+        <h1>はじめての<br />3Dプリント</h1>
+        <p>自然科学部 3Dモデル班がまとめた、本校3Dプリンターの使い方です。データ作りから取り外しまで、この順番どおりに進めればOK。わからないところは飛ばさずに、班員か先生に聞いてください。</p>
+      </div>
+      <dl className="g-spec" style={{ margin: 0 }}>
+        <div className="g-spec-row"><dt>機種</dt><dd>{M.maker} {M.name}</dd></div>
+        <div className="g-spec-row"><dt>スライサー</dt><dd>{M.slicer}</dd></div>
+        <div className="g-spec-row"><dt>基本材料</dt><dd>PLA</dd></div>
+        <div className="g-spec-row"><dt>設置場所</dt><dd>【要記入】</dd></div>
+        <div className="g-spec-row"><dt>管理</dt><dd>自然科学部 3Dモデル班</dd></div>
+        <div className="g-spec-row"><dt>顧問</dt><dd>【要記入】先生</dd></div>
+      </dl>
+    </section>
+
+    <div className="g-body">
+      <nav className="g-toc">
+        <div className="g-toc-h">もくじ</div>
+        {GUIDE_SECTIONS.map(s => <a key={s.id} href={'#' + s.id} className={active === s.id ? 'on' : ''}><span>{s.no}</span>{s.title}</a>)}
+        <div className="g-keyhint"><kbd>↑</kbd><kbd>↓</kbd> キーでステップごとに移動できます</div>
+      </nav>
+      <main>
+        {GUIDE_SECTIONS.map(s => (
+          <section className="g-sec" id={s.id} key={s.id} data-screen-label={s.no + ' ' + s.title}>
+            <div className="g-sec-h">
+              <div className="g-sec-no">{s.no}</div><h2>{s.title}</h2>
+              {s.time ? <div className="g-time">目安 {s.time}</div> : <div />}
+            </div>
+            <p className="g-lead">{s.lead}</p>
+            {s.id === 'print' && <div style={{ margin: '0 0 48px' }}><Checklist /></div>}
+            {s.steps && <div className={'L-' + t.layout} style={{ '--cols': t.cols }}>
+              {(() => { let n = 0; return s.steps.map((st, i) => {
+                const has = !!(pick(st.img, m) || st.src); const flip = has && (n++ % 2 === 1);
+                return <Step key={i} s={st} i={i} m={m} layout={t.layout} flip={flip} />; }); })()}
+            </div>}
+            
+            {s.trouble && <Trouble items={s.trouble} />}
+          </section>
+        ))}
+      </main>
+    </div>
+    <footer className="g-foot-wrap"><div className="g-foot">
+      <div className="g-foot-club"><i className="g-mark">3D</i><div><b>松山南高校 自然科学部 / 3Dモデル班</b><span>わからないことは部員に気軽に聞いてね</span></div></div>
+      <div className="g-foot-meta"><span>最終更新：【要記入】</span><span>作成：3Dモデル班【要記入】</span></div>
+    </div></footer>
+
+    <div className={'g-step-pos' + (stepPos ? ' show' : '')}>{stepPos}</div>
+    <TweaksPanel>
+      <TweakSection label="ステップの並べ方">
+        <TweakRadio label="レイアウト" value={t.layout} onChange={v => setTweak('layout', v)}
+          options={[{ value: 'grid', label: 'カード' }, { value: 'alt', label: '交互' }, { value: 'list', label: '縦リスト' }]} />
+        {t.layout === 'grid' && <TweakSlider label="カード列数" value={t.cols} min={2} max={4} onChange={v => setTweak('cols', v)} />}
+      </TweakSection>
+      <TweakSection label="色">
+        <TweakColor label="アクセント" value={t.accent} onChange={v => setTweak('accent', v)}
+          options={['#D9622B', '#2F6DB5', '#2E8A5A', '#C0303B']} />
+      </TweakSection>
+    </TweaksPanel>
+  </>);
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
